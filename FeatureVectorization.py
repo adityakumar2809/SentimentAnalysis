@@ -39,14 +39,14 @@ def main():
     vectorizer, vectorized_data = countVectorizeTextData(corpus)
     saveDataAsCSV(
         vectorized_data.toarray(),
-        'result/CountVectorized.csv',
+        'result/vectorized_data/CountVectorized.csv',
         columns=vectorizer.get_feature_names()
     )
 
     vectorizer, vectorized_data = tfidfVectorizeTextData(corpus)
     saveDataAsCSV(
         vectorized_data.toarray(),
-        'result/TFIDFVectorized.csv',
+        'result/vectorized_data/TFIDFVectorized.csv',
         columns=vectorizer.get_feature_names()
     )
 

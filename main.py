@@ -8,13 +8,16 @@ def getCorpus():
     dir_path = str(pwd_path) + '/data/review_data/train/pos'
     corpus_pos = readDataFileMethod(dir_path)
     pos_length = len(corpus_pos)
+    print('Length of POS:', pos_length)
 
     
     dir_path = str(pwd_path) + '/data/review_data/train/neg'
     corpus_neg = readDataFileMethod(dir_path)
     neg_length = len(corpus_neg)
+    print('Length of NEG:', neg_length)
 
     corpus = corpus_pos.extend(corpus_neg)
+    print('Length of Corpus:', len(corpus))
 
     return corpus
 

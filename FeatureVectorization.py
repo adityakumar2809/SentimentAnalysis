@@ -14,15 +14,15 @@ def saveDataAsCSV(vectorized_data, filepath, columns=None):
     df.to_csv(filepath)
 
 
-def saveVectorizer(vectorizer, filepath):
-    '''Save the vectorizer object using pickle'''
-    pickle.dump(vectorizer, open(filepath, 'wb'))
+def saveDataInPickleFile(data, filepath):
+    '''Save the data using pickle'''
+    pickle.dump(data, open(filepath, 'wb'))
 
 
-def retrieveVectorizer(filepath):
-    '''Retrieve the saved vectorizer object using pickle'''
-    vectorizer = pickle.load(open(filepath, 'rb'))
-    return vectorizer
+def retrieveDataFromPickleFile(filepath):
+    '''Retrieve the saved data using pickle'''
+    data = pickle.load(open(filepath, 'rb'))
+    return data
 
 
 def fitTransformCountVectorizer(data):
@@ -63,7 +63,7 @@ def main():
         columns=vectorizer.get_feature_names()
     )
     filepath = 'result/vectorizer/CountVectorizer.pkl'
-    saveVectorizer(vectorizer, filepath)
+    saveDataInPickleFile(vectorizer, filepath)
     
     vectorizer, vectorized_data = fitTransformTFIDFVectorizer(corpus)
     saveDataAsCSV(
@@ -72,7 +72,7 @@ def main():
         columns=vectorizer.get_feature_names()
     )
     filepath = 'result/vectorizer/TFIDFVectorizer.pkl'
-    saveVectorizer(vectorizer, filepath)
+    saveDataInPickleFile(vectorizer, filepath)
 
 
     # TRANSFORM USING SAVED VECTORIZER
@@ -80,7 +80,7 @@ def main():
     corpus = readDataFileMethod(dir_path)
     
     filepath = 'result/vectorizer/CountVectorizer.pkl'
-    vectorizer = retrieveVectorizer(filepath)
+    vectorizer = retrieveDataFromPickleFile(filepath)
     vectorized_data = transformUsingSavedVectorizer(vectorizer, corpus)
     saveDataAsCSV(
         vectorized_data.toarray(),
@@ -89,7 +89,7 @@ def main():
     )
     
     filepath = 'result/vectorizer/TFIDFVectorizer.pkl'
-    vectorizer = retrieveVectorizer(filepath)
+    vectorizer = retrieveDataFromPickleFile(filepath)
     vectorized_data = transformUsingSavedVectorizer(vectorizer, corpus)
     saveDataAsCSV(
         vectorized_data.toarray(),

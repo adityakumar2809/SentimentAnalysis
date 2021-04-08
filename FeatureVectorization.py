@@ -1,4 +1,5 @@
 import math
+import pickle
 import pathlib
 import collections
 import pandas as pd
@@ -11,6 +12,11 @@ from ReadData import readDataFileMethod
 def saveDataAsCSV(vectorized_data, filepath, columns=None):
     df = pd.DataFrame(vectorized_data, columns=columns)
     df.to_csv(filepath)
+
+
+def saveVectorizer(vectorizer, filepath):
+    '''Save the vectorizer object using pickle'''
+    pickle.dump(vectorizer, open(filepath, 'wb'))
 
 
 def countVectorizeTextData(data):
@@ -42,6 +48,9 @@ def main():
         'result/vectorized_data/CountVectorized.csv',
         columns=vectorizer.get_feature_names()
     )
+    filepath = 'result/vectorizer/CountVectorizer.pkl'
+    saveVectorizer(vectorizer, filepath)
+    
 
     vectorizer, vectorized_data = tfidfVectorizeTextData(corpus)
     saveDataAsCSV(
@@ -49,6 +58,8 @@ def main():
         'result/vectorized_data/TFIDFVectorized.csv',
         columns=vectorizer.get_feature_names()
     )
+    filepath = 'result/vectorizer/TFIDFVectorizer.pkl'
+    saveVectorizer(vectorizer, filepath)
 
 
 if __name__ == '__main__':

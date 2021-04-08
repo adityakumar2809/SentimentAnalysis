@@ -53,7 +53,7 @@ def main():
     pwd_path = pathlib.Path(__file__).parent.absolute()
     
     # FIT TRANSFORM VECTORIZERS
-    dir_path = str(pwd_path) + '/data/review_data/train/small'
+    dir_path = str(pwd_path) + '/data/review_data/train/custom/small'
     corpus = readDataFileMethod(dir_path)
 
     vectorizer, vectorized_data = fitTransformCountVectorizer(corpus)
@@ -76,7 +76,7 @@ def main():
 
 
     # TRANSFORM USING SAVED VECTORIZER
-    dir_path = str(pwd_path) + '/data/review_data/train/ultra_small'
+    dir_path = str(pwd_path) + '/data/review_data/train/custom/ultra_small'
     corpus = readDataFileMethod(dir_path)
     
     filepath = 'result/vectorizer/CountVectorizer.pkl'

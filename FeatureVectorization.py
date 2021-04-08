@@ -19,7 +19,13 @@ def saveVectorizer(vectorizer, filepath):
     pickle.dump(vectorizer, open(filepath, 'wb'))
 
 
-def countVectorizeTextData(data):
+def retrieveVectorizer(filepath):
+    '''Retrieve the saved vectorizer object using pickle'''
+    vectorizer = pickle.load(open(filepath, 'rb'))
+    return vectorizer
+
+
+def fitTransformCountVectorizer(data):
     '''Vectorize text DataFrame using CountVectorizer'''
     vectorizer = CountVectorizer(analyzer=preprocessText)
     vectorizer_fit = vectorizer.fit(data)
@@ -28,7 +34,7 @@ def countVectorizeTextData(data):
     return vectorizer_fit, vectorizer_transform_data
 
 
-def tfidfVectorizeTextData(data):
+def fitTransformTFIDFVectorizer(data):
     '''Vectorize text DataFrame using TfidfVectorizer'''
     vectorizer = TfidfVectorizer(analyzer=preprocessText)
     vectorizer_fit = vectorizer.fit(data)
@@ -37,12 +43,20 @@ def tfidfVectorizeTextData(data):
     return vectorizer_fit, vectorizer_transform_data
 
 
+def transformUsingSavedVectorizer(vectorizer, data):
+    '''Vectorize text DataFrame using CountVectorizer'''
+    vectorizer_transform_data = vectorizer.transform(data)
+    return vectorizer_transform_data
+
+
 def main():
     pwd_path = pathlib.Path(__file__).parent.absolute()
+    
+    # FIT TRANSFORM VECTORIZERS
     dir_path = str(pwd_path) + '/data/review_data/train/small'
     corpus = readDataFileMethod(dir_path)
 
-    vectorizer, vectorized_data = countVectorizeTextData(corpus)
+    vectorizer, vectorized_data = fitTransformCountVectorizer(corpus)
     saveDataAsCSV(
         vectorized_data.toarray(),
         'result/vectorized_data/CountVectorized.csv',
@@ -51,8 +65,7 @@ def main():
     filepath = 'result/vectorizer/CountVectorizer.pkl'
     saveVectorizer(vectorizer, filepath)
     
-
-    vectorizer, vectorized_data = tfidfVectorizeTextData(corpus)
+    vectorizer, vectorized_data = fitTransformTFIDFVectorizer(corpus)
     saveDataAsCSV(
         vectorized_data.toarray(),
         'result/vectorized_data/TFIDFVectorized.csv',
@@ -60,6 +73,30 @@ def main():
     )
     filepath = 'result/vectorizer/TFIDFVectorizer.pkl'
     saveVectorizer(vectorizer, filepath)
+
+
+    # TRANSFORM USING SAVED VECTORIZER
+    dir_path = str(pwd_path) + '/data/review_data/train/ultra_small'
+    corpus = readDataFileMethod(dir_path)
+    
+    filepath = 'result/vectorizer/CountVectorizer.pkl'
+    vectorizer = retrieveVectorizer(filepath)
+    vectorized_data = transformUsingSavedVectorizer(vectorizer, corpus)
+    saveDataAsCSV(
+        vectorized_data.toarray(),
+        'result/vectorized_data/SavedCountVectorized.csv',
+        columns=vectorizer.get_feature_names()
+    )
+    
+    filepath = 'result/vectorizer/TFIDFVectorizer.pkl'
+    vectorizer = retrieveVectorizer(filepath)
+    vectorized_data = transformUsingSavedVectorizer(vectorizer, corpus)
+    saveDataAsCSV(
+        vectorized_data.toarray(),
+        'result/vectorized_data/SavedTFIDFVectorized.csv',
+        columns=vectorizer.get_feature_names()
+    )
+
 
 
 if __name__ == '__main__':

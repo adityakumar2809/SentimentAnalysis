@@ -6,15 +6,13 @@ from ReadData import readDataFileMethod
 def getCorpus():
     pwd_path = pathlib.Path(__file__).parent.absolute()
 
-    # dir_path = str(pwd_path) + '/data/review_data/train/pos'
-    dir_path = str(pwd_path) + '/data/review_data/train/custom/small'
+    dir_path = str(pwd_path) + '/data/review_data/train/pos'
     corpus_pos = readDataFileMethod(dir_path)
     pos_length = len(corpus_pos)
     print('Length of POS:', pos_length)
 
     
-    # dir_path = str(pwd_path) + '/data/review_data/train/neg'
-    dir_path = str(pwd_path) + '/data/review_data/train/custom/ultra_small'
+    dir_path = str(pwd_path) + '/data/review_data/train/neg'
     corpus_neg = readDataFileMethod(dir_path)
     neg_length = len(corpus_neg)
     print('Length of NEG:', neg_length)

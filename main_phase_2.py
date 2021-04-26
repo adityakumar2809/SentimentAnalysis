@@ -1,5 +1,5 @@
 from sklearn.svm import SVC
-from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import MultinomialNB
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -30,7 +30,7 @@ def main():
         DecisionTreeClassifier(criterion='entropy', random_state=0),
         KNeighborsClassifier(n_neighbors=5, metric='minkowski', p=2),
         LogisticRegression(random_state = 0),
-        GaussianNB(),
+        MultinomialNB(),
         RandomForestClassifier(n_estimators=100, criterion='entropy', random_state=0),
         SVC(kernel='linear', random_state=0)
     ]
